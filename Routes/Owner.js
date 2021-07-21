@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 const {validateToken} = require('../middleware/OwnerAuth');
 
 //Register Owner
-router.post('/register', async (req, res) => {
+//Only Authenticated owner can add another owner
+router.post('/register',validateToken, async (req, res) => {
     const owner = new Owner(req.body);
     const username = await Owner.findOne({"username":req.body.username})
     if(!username){
