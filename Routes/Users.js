@@ -6,7 +6,16 @@ const jwt = require('jsonwebtoken');
 const {validateToken} = require('../middleware/UserAuth');
 
 //Register User
-
+router.post('/register', async (req, res) => {
+    const users = new Users(req.body);
+    const username = await Users.findOne({"username":req.body.username})
+    if(!username){
+        await users.save();
+        res.send("Success") 
+    }else{
+        res.send("User Name Already Taken");
+    }
+})
 
 //Login User
 router.post('/login', async (req, res) => {
